@@ -26,7 +26,6 @@ jobs:
           uses: docker/build-push-action@v2.3.0
           with:
             push: true
-            tags: ${{ env.PACKAGE_NAME }}
 
   # This workflow contains a single job called "build"
   push_event:
