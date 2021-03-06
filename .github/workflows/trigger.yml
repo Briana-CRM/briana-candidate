@@ -16,17 +16,23 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Login to GitHub Container Registry
-          uses: docker/login-action@v1
+          uses: docker/login-action@v1.11.0
           with:
             registry: ghcr.io
             username: ${{ github.repository_owner }}
             password: ${{ secrets.CR_PAT }}
+            
+        - name: Docker meta
+          id: docker_meta
+          uses: crazy-max/ghaction-docker-meta@v1
+          with:
+            images: ${{ github.repository }}
           
         - name: Push to GitHub Packages
-          uses: docker/build-push-action@v2
+          uses: docker/build-push-action@v2.3.0
           with:
             push: true
-            tags: ${{ env.PACKAGE_NAME }}
+            tags: ${{ steps.docker_meta.outputs.tags }}
 
   # This workflow contains a single job called "build"
   push_event:
@@ -43,4 +49,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: briana-crm/briana-test
           event-type: push_candidate
-          client-payload: '{"name": "${{ env.PACKAGE_NAME }}"}'
+          client-payload: '{"name": "${{ steps.docker_meta.outputs.tags }}"}'
