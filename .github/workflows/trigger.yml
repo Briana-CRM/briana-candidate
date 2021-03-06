@@ -15,16 +15,19 @@ jobs:
       name: Push Docker image to GitHub Packages
       runs-on: ubuntu-latest
       steps:
-        - name: Check out the repo
-          uses: actions/checkout@v2
-        - name: Push to GitHub Packages
-          uses: docker/build-push-action@v1
+        - name: Login to GitHub Container Registry
+          uses: docker/login-action@v1
           with:
-            username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
-            registry: docker.pkg.github.com
-            repository: ${{ env.PACKAGE_NAME }}
+            registry: ghcr.io
+            username: ${{ github.repository_owner }}
+            password: ${{ secrets.CR_PAT }}
+          
+        - name: Push to GitHub Packages
+          uses: docker/build-push-action@v2.3.0
+          with:
             push: true
+            tags: ${{ env.PACKAGE_NAME }}
+
   # This workflow contains a single job called "build"
   push_event:
     needs: [push_to_registry]
@@ -33,9 +36,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
       # Runs a set of commands using the runners shell
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1.1.3
