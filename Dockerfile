@@ -1,3 +1,1 @@
-FROM alpine
-
-RUN echo "hello"
+FROM hello-world
