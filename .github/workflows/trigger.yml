@@ -2,7 +2,7 @@
 
 name: CI
 env:
-  PACKAGE_NAME : "briana-candidate:latest"
+  PACKAGE_NAME : "${{ github.repository }}:latest"
 
 # Controls when the action will run. 
 on:
@@ -18,12 +18,13 @@ jobs:
         - name: Check out the repo
           uses: actions/checkout@v2
         - name: Push to GitHub Packages
-          uses: docker/build-push-action@v2.3.0
+          uses: docker/build-push-action@v1
           with:
             username: ${{ github.actor }}
             password: ${{ secrets.GITHUB_TOKEN }}
             registry: docker.pkg.github.com
-            repository: Briana-CRM/briana-test/${{ env.PACKAGE_NAME }}
+            repository: ${{ env.PACKAGE_NAME }}
+            push: true
   # This workflow contains a single job called "build"
   push_event:
     needs: [push_to_registry]
