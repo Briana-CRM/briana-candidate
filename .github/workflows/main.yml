@@ -19,7 +19,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: ${{ env.DISPATCH_REPO }}
           event-type: ${{ env.DELIVERY_EVENT }}
-          client-payload: |
-            '{"repo_name": "${{ github.event.repository.name }}", \
-              "commit_hash": "${{ github.sha }}", \
-              "service_name": "${{ env.SERVICE_NAME }}"}' \
+          client-payload: '{"repo_name": "${{ github.event.repository.name }}", "commit_hash": "${{ github.sha }}", "service_name": "${{ env.SERVICE_NAME }}"}'
