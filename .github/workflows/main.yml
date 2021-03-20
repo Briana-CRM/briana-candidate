@@ -20,6 +20,6 @@ jobs:
           repository: ${{ env.DISPATCH_REPO }}
           event-type: ${{ env.DELIVERY_EVENT }}
           client-payload: |
-            '{"repo_name": "${{ github.event.repository.name }}",
-              "commit_hash": "${{ github.sha }}",
-              "service_name": "${{ env.SERVICE_NAME }}"}'
+            '{"repo_name": "${{ github.event.repository.name }}", \
+              "commit_hash": "${{ github.sha }}", \
+              "service_name": "${{ env.SERVICE_NAME }}"}' \
