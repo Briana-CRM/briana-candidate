@@ -1,3 +1,1 @@
-FROM containous/whoami:v1.5.0
-
-EXPOSE 80
+FROM stefanscherer/whoami:2.0.1
